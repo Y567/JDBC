@@ -99,7 +99,7 @@
             </tr>
             <tr>
                 <td class="td_left"><label for = "gender">性别：</label></td>
-                <td class="td_right"><input class="sex" id="gender" type="radio" name="gender" value="m" checked>男<input class="sex" type="radio" name="gender" value="f">女</td>
+                <td class="td_right"><input class="sex" id="gender" type="radio" name="gender" value="男" checked>男<input class="sex" type="radio" name="gender" value="女">女</td>
             </tr>
             <tr>
                 <td class="td_left"><label for = "birthday">出生日期：</label></td>

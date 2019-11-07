@@ -8,10 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * 该servlet实现将注册信息存入数据库
@@ -30,24 +27,34 @@ public class ErollServlet extends HttpServlet {
         //将其存入数据库表
         //1.获取数据库连接对象
         Connection con = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         //2.写sql语句
         //2.1先写一个查询语句，检查该用户是否存在
-        String sqlcheck = "select * from user where username='"+username+"'";
-        String sql = "insert into user values(null,'"+username+"','"+password+"','"+tell+"','"+gender+"','"+birthday+"')";
+        String sqlcheck = "select * from user where username=?";
+        String sql = "insert into user values(null,?,?,?,?,?)";
         //3.获取执行sql语句的对象
         try {
             con = JDBCUtils.getConnection();
-            stmt = con.createStatement();
+            pstmt = con.prepareStatement(sqlcheck);
+            //设置参数
+            pstmt.setString(1,username);
             //4.执行语句
-            ResultSet rs = stmt.executeQuery(sqlcheck);
+            rs = pstmt.executeQuery();
             if(rs.next()){
                 //用户已存在
                 resp.sendRedirect(req.getContextPath()+"/erollFail.jsp");
                 //这里直接返回
                 return;
             }
-            int i = stmt.executeUpdate(sql);
+            pstmt = con.prepareStatement(sql);
+            //3.1设置参数值
+            pstmt.setString(1,username);
+            pstmt.setString(2,password);
+            pstmt.setString(3,tell);
+            pstmt.setString(4,gender);
+            pstmt.setString(5,birthday);
+            int i = pstmt.executeUpdate();
             if(i > 0){
                 //重定向到别的页面（注册成功），这里就重定向会登录界面让用户登录
                 resp.sendRedirect(req.getContextPath()+"/erollSuccess.jsp");
@@ -59,7 +66,7 @@ public class ErollServlet extends HttpServlet {
             e.printStackTrace();
         }finally {
             //5.释放资源
-            JDBCUtils.close(stmt,con);
+            JDBCUtils.close(rs,pstmt,con);
         }
     }
 

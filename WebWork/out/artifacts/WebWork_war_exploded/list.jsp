@@ -32,6 +32,15 @@
             text-align: center;
         }
     </style>
+    <script>
+        function deleteUser(id){
+            //防止用户误删，进行确认
+            if(confirm("您确定要删除吗？")){
+                //确定要删除
+                location.href = "${pageContext.request.contextPath}/deleteUserServlet?id="+id;
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -44,18 +53,18 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail2">性别</label>
-                <input type="email" class="form-control" id="exampleInputEmail2">
+                <input type="text" class="form-control" id="exampleInputEmail2">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail3">生日</label>
-                <input type="email" class="form-control" id="exampleInputEmail3">
+                <input type="date" class="form-control" id="exampleInputEmail3">
             </div>
             <button type="submit" class="btn btn-default">查询</button>
         </form>
     </div>
     <div style="float:right;margin: 6px">
-        <td colspan="8" align="center"><a class="btn btn-primary" href="add.html">添加联系人</a></td>
-        <td colspan="8" align="center"><a class="btn btn-primary" href="add.html">删除</a></td>
+        <td colspan="8" align="center"><a class="btn btn-primary" href="add.jsp">添加玩家</a></td>
+        <td colspan="8" align="center"><a class="btn btn-primary" href="add.jsp">删除</a></td>
     </div>
     <table border="1" class="table table-bordered table-hover">
         <tr class="success">
@@ -75,7 +84,7 @@
                 <td>${users.gender}</td>
                 <td>${users.username}</td>
                 <td>${users.birthday}</td>
-                <td><a class="btn btn-default btn-sm" href="update.html">修改</a>&nbsp;<a class="btn btn-default btn-sm" href="">删除</a></td>
+                <td><a class="btn btn-default btn-sm" href="${pageContext.request.contextPath}/findUserServlet?id=${users.id}">修改</a>&nbsp;<a class="btn btn-default btn-sm" onclick="deleteUser(${users.id})" href="">删除</a></td>
             </tr>
         </c:forEach>
     </table>
