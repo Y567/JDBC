@@ -17,7 +17,8 @@
     <body>
         <div class="container" style="width: 400px;">
         <h3 style="text-align: center;">修改联系人</h3>
-        <form action="" method="post">
+        <form action="${pageContext.request.contextPath}/updateUserServlet" method="post">
+            <input type="hidden" value="${user.id}" name="id">
             <div class="form-group">
                 <label for="username">用户名：</label>
                 <input type="text" class="form-control" id="username" name="username" readonly="readonly" value="${user.username}" placeholder="请输入一个邮箱作为账号">
@@ -55,7 +56,7 @@
             <div class="form-group" style="text-align: center">
                 <input class="btn btn-primary" type="submit" value="提交" />
                 <input class="btn btn-default" type="reset" value="重置" />
-                <input class="btn btn-default" type="button" value="返回" />
+                <input class="btn btn-default" type="button" onclick="javascript:history.back(-1);" value="返回" />
             </div>
         </form>
         </div>

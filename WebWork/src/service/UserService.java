@@ -1,8 +1,10 @@
 package service;
 
+import domain.PageBean;
 import domain.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     /**
@@ -27,4 +29,11 @@ public interface UserService {
     根据id查询玩家，并封装为User对象
      */
     User findUserById(int id);
+
+    /*
+    更新玩家信息
+     */
+    void updateUser(User user);
+
+    PageBean<User> findUserByPage(int currentPage, int rows, Map<String, String> condition);
 }
